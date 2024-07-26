@@ -112,7 +112,10 @@ int insertSortedLL(LinkedList *ll, int item)
 	// if there is same val with item in ll...! return -1
 	else {
 		ListNode* cur_node = ll->head;
-		if(cur_node->item == item) return -1;
+		if(cur_node->item == item) {
+			printf("data %d is already in LL!\n", item);
+			return 0;
+		}
 
 		if(cur_node->item < item) {
 			ListNode* new_node = malloc(sizeof(ListNode));
@@ -130,7 +133,10 @@ int insertSortedLL(LinkedList *ll, int item)
 					cur_node = cur_node->next;
 				}
 				//
-				else if(cur_node->item == item) return -1;
+				else if(cur_node->item == item) {
+					printf("data %d is already in LL!\n", item);
+					return 0;
+				}
 				else {
 					// cur node의 item < item => pre -> newnode
 					break;
