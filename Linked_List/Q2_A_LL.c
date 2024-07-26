@@ -6,6 +6,7 @@ Purpose: Implementing the required functions for Question 2 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
+#include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -104,6 +105,56 @@ int main()
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
     /* add your code here */
+	/*
+	 * Todo : merge two LL by it's order
+	 * A = [a, b, c, d]
+	 * B = [e, f, g, h]
+	 * ==>
+	 * A = [a, e, b, f, c, g, d, h]
+	 * B = []
+	 *
+	 * A = [a, b, c, d]
+	 * B = [e, f, g, h, i]
+	 * ==>
+	 * A = [a, e, b, f, c, g, d, h]
+	 * B = [i]
+	 *
+	 *
+	 * IDEA
+	 * 1. for each element in A... there should be a follow up B
+	 * 2. one while...
+	 * 3. for each element, keep the next and Append B[i] to original
+	 * and do it again for the next one.
+	 **/
+
+	if(ll1->head == NULL || ll2->head == NULL) {
+		printf("List element missing! Check List again.\n");
+	}
+
+	ListNode* cur_node_a = ll1->head;
+	ListNode* cur_node_b = ll2->head;
+
+	int a_count = ll1->size;
+
+	while(a_count != 0 and ll2->size > 0) {
+		ListNode* next_node_b = cur_node_b->next;
+		cur_node_b->next = cur_node_a->next;
+		cur_node_a->next = cur_node_b;
+
+		cur_node_a = cur_node_b->next;
+		cur_node_b = next_node_b;
+		a_count -= 1;
+		ll2->size -= 1;
+		ll1->size += 1;
+	}
+	if(ll2->size <= 0) {
+		ll2->size = 0;
+		ll2->head = NULL;
+	}
+	else {
+		ll2->head = cur_node_b;
+	}
+	return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
