@@ -6,6 +6,7 @@ Purpose: Implementing the required functions for Question 1 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -91,6 +92,63 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+
+	/*
+	* 1. input data from user -> item
+	* 2. search through LL to see if it is already in
+	* 3 -1 . if it is in LL, show user that it alerady exists(return -1).
+	* 3 -2 . if it is not in LL, add it in ascending order.
+	*
+	* */
+	// if ll is EMPTY
+	if(ll->head ==NULL) {
+		ListNode* new_node = malloc(sizeof(ListNode));
+		new_node ->item = item;
+		new_node -> next = NULL;
+		ll->head = new_node;
+
+	}
+	// if LL NOT EMPTY!... search for pos where new node should go in...
+	// if there is same val with item in ll...! return -1
+	else {
+		ListNode* cur_node = ll->head;
+		if(cur_node->item == item) return -1;
+
+		if(cur_node->item < item) {
+			ListNode* new_node = malloc(sizeof(ListNode));
+			new_node->next = cur_node;
+			new_node->item = item;
+			ll->head = new_node;
+		}
+		else {
+			ListNode* pre_node = cur_node;
+			while (true) {
+				if(cur_node->item > item) {
+					pre_node = cur_node;
+					// cur node is last... pre node -> new node -> null
+					if (cur_node->next == NULL) break;
+					cur_node = cur_node->next;
+				}
+				//
+				else if(cur_node->item == item) return -1;
+				else {
+					// cur node의 item < item => pre -> newnode
+					break;
+				}
+			}
+			ListNode* new_node = malloc(sizeof(ListNode));
+			if (pre_node != cur_node){
+				// if cur node came out from break, that means that cur node is last and cur node is same(SA-ME!) as pre node.
+				new_node->next = cur_node;
+			}
+			else {
+				new_node->next = NULL;
+			}
+			pre_node->next = new_node;
+			new_node->item = item;
+		}
+	}
+	ll->size += 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
