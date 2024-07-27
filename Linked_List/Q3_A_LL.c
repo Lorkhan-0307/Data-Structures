@@ -105,6 +105,7 @@ void moveOddItemsToBack(LinkedList *ll)
 	while(cur_node->item %2 == 1 && cnt_ll > 0) {
 		ll->head = cur_node->next;
 		last_node->next = cur_node;
+		last_node = cur_node;
 		cur_node->next = NULL;
 		cur_node = ll->head;
 		cnt_ll -= 1;
