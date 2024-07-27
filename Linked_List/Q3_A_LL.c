@@ -86,7 +86,50 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	/*
+	 * just search for odd values from the start and connect it to the last...
+	 */
+
+	ListNode* cur_node = ll->head;
+	ListNode* last_node = cur_node;
+	ListNode * prev_node = NULL;
+
+	while(last_node->next != NULL) {
+		last_node = last_node->next;
+	}
+
+	// if first node was odd, this has to go back and set head to the second node
+	// if the second was odd again, we got to do this all over.
+	int cnt_ll = ll->size - 1;
+
+	while(cur_node->item %2 == 1 && cnt_ll > 0) {
+		ll->head = cur_node->next;
+		last_node->next = cur_node;
+		cur_node->next = NULL;
+		cur_node = ll->head;
+		cnt_ll -= 1;
+	}
+
+	prev_node = cur_node;
+
+	while(cnt_ll > 0) {
+		// code comes in here when there is an even number value
+
+		while(cur_node->item %2 == 0  && cnt_ll > 0) {
+			prev_node = cur_node;
+			cur_node = cur_node->next;
+			cnt_ll -= 1;
+		}
+		if(cur_node->item % 2 == 1) {
+			prev_node->next = cur_node->next;
+			last_node->next = cur_node;
+			cur_node->next = NULL;
+			last_node = cur_node;
+			cur_node = prev_node->next;
+			cnt_ll -= 1;
+		}
+	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
