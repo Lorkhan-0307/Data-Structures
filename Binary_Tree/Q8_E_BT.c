@@ -6,6 +6,7 @@ Purpose: Implementing the required functions for Question 8 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -102,7 +103,76 @@ int main()
 
 int hasGreatGrandchild(BTNode *node)
 {
+    if(node == NULL) return 0;
+    if(node->left == NULL && node->right == NULL) return 0;
 	/* add your code here */
+    if(node->left == NULL) {
+        // when only right node
+        if(node->right->left == NULL && node->right->right == NULL) return 0;
+        if(node->right->right == NULL) {
+            if(node->right->left->item > node->item) {
+                printf("%d ", node->item);
+            }
+        }
+        else if(node->right->left == NULL) {
+            if(node->right->right->item > node->item) {
+                printf("%d ", node->item);
+            }
+        }
+        else {
+            if(node->right->right->item > node->item || node->right->left->item > node->item) {
+                printf("%d ", node->item);
+            }
+        }
+        hasGreatGrandchild(node->right);
+    }
+    else if (node->right == NULL) {
+        // when only left node
+        if(node->left->left == NULL && node->left->right == NULL) return 0;
+        if(node->left->right == NULL) {
+            if(node->left->left->item > node->item) {
+                printf("%d ", node->item);
+            }
+        }
+        else if(node->left->left == NULL) {
+            if(node->left->right->item > node->item) {
+                printf("%d ", node->item);
+            }
+        }
+        else {
+            if(node->left->right->item > node->item || node->left->left->item > node->item) {
+                printf("%d ", node->item);
+            }
+        }
+        hasGreatGrandchild(node->left);
+    }
+    else {
+        // both nodes
+        bool hasGGChild = false;
+        if(node->left->left != NULL) {
+            if(node->left->left->item > node->item) {
+                hasGGChild = true;
+            }
+        }
+        if(!hasGGChild && node->left->right != NULL) {
+            if(node->left->right->item > node->item) {
+                hasGGChild = true;
+            }
+        }
+        if(!hasGGChild && node->right->left != NULL) {
+            if(node->right->left->item > node->item) {
+                hasGGChild = true;
+            }
+        }
+        if(!hasGGChild && node->right->right != NULL) {
+            if(node->right->right->item > node->item) {
+                hasGGChild = true;
+            }
+        }
+        if(hasGGChild) printf("%d ", node->item);
+        hasGreatGrandchild(node->left);
+        hasGreatGrandchild(node->right);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////

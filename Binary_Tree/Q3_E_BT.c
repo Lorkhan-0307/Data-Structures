@@ -101,7 +101,29 @@ int main()
 int countOneChildNodes(BTNode *node)
 
 {
+
     /* add your code here */
+    // DFS? we need to use Exhaustive Search anyway...
+
+    if(node == NULL) return 0;
+
+    int cntOneChildNode = 0;
+    if(node->left == NULL && node->right != NULL) {
+        cntOneChildNode += 1;
+        cntOneChildNode += countOneChildNodes(node->right);
+    }
+
+    else if (node->left != NULL && node->right == NULL) {
+        cntOneChildNode += 1;
+        cntOneChildNode += countOneChildNodes(node->left);
+    }
+
+    else {
+        cntOneChildNode += countOneChildNodes(node->right);
+        cntOneChildNode += countOneChildNodes(node->left);
+    }
+
+    return cntOneChildNode;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

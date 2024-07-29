@@ -94,10 +94,24 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+int dfs_maxHeight(BTNode *node, int depth)
+{
+    if(node == NULL) return depth;
+    depth+= 1;
+    int depth_left = dfs_maxHeight(node->left, depth);
+    int depth_right = dfs_maxHeight(node->right, depth);
+    if (depth_left > depth_right) return depth_left;
+    else return depth_right;
+}
+
 int maxHeight(BTNode *node)
 
 {
     /* add your code here */
+    // Search through BFS and come back..?
+
+    int depth = -1;
+    return dfs_maxHeight(node, depth);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
