@@ -117,6 +117,22 @@ int main()
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
 	/* add your code here */
+	// I need to empty the queue? can't I just create a new one?
+
+	if(q->ll.size>0) {
+		free(q);
+		q = (Queue*)malloc(sizeof(Queue));
+		q->ll.head = NULL;
+		q->ll.size = 0;
+	}
+
+	ListNode* cur_node = ll->head;
+	if(cur_node != NULL) {
+		q->ll.head = cur_node;
+		q->ll.size = ll->size;
+		ll->head = NULL;
+		ll->size = 0;
+	}
 }
 
 void removeOddValues(Queue *q)

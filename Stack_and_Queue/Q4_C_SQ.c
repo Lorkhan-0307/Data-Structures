@@ -112,7 +112,45 @@ int main()
 
 void reverse(Queue *q)
 {
-/* add your code here */
+	Stack* temp_stk = malloc(sizeof(Stack));
+	temp_stk->ll.size = 0;
+	temp_stk->ll.head = NULL;
+	temp_stk->ll.tail = NULL;
+
+	ListNode* cur_node = q->ll.head;
+	while(cur_node != NULL) {
+		push(temp_stk, cur_node->item);
+		cur_node = cur_node->next;
+	}
+
+	removeAllItems(&(q->ll));
+
+	q->ll.head = NULL;
+	q->ll.size = temp_stk->ll.size;
+
+
+
+	// first node
+	ListNode* first_Node = malloc(sizeof(ListNode));
+	q->ll.head = first_Node;
+	first_Node->next = NULL;
+	first_Node->item = pop(temp_stk);
+
+
+	cur_node = q->ll.head;
+	int cnt = 1;
+	while(cnt < q->ll.size) {
+
+		ListNode* new_node = malloc(sizeof(ListNode));
+		new_node->next = NULL;
+		new_node->item = pop(temp_stk);
+		cur_node->next = new_node;
+		cur_node = new_node;
+		cnt += 1;
+	}
+
+	free(temp_stk);
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

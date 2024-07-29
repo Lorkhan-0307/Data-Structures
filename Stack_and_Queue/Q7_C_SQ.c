@@ -104,7 +104,49 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	Stack* str_stk = malloc(sizeof(Stack));
+	str_stk->ll.head = NULL;
+	str_stk->ll.size = 0;
+	int cnt = 0;
+	int opened_cnt = 0;
+
+
+	while(expression[cnt] != (char)NULL) {
+		// input to stack if it opens
+		// pops from stack if it closes.
+		// if input remains or stack remains, it is not balanced
+		if(expression[cnt] == '(') {
+			push(str_stk, 1);
+			opened_cnt += 1;
+		}
+		else if(expression[cnt] == '[') {
+			push(str_stk, 2);
+			opened_cnt += 1;
+		}
+		else if(expression[cnt] == '{') {
+			push(str_stk, 3);
+			opened_cnt += 1;
+		}
+		else if(expression[cnt] == ')') {
+			opened_cnt -= 1;
+			if(pop(str_stk) != 1) return 1;
+		}
+		else if(expression[cnt] == ']') {
+			opened_cnt -= 1;
+			if(pop(str_stk) != 2) return 1;
+		}
+		else if(expression[cnt] == '}') {
+			opened_cnt -= 1;
+			if(pop(str_stk) != 3) return 1;
+		}
+
+		cnt += 1;
+	}
+	if(opened_cnt != 0) return 1;
+	if(str_stk->ll.size != 0) return 1;
+	free(str_stk);
+
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////
