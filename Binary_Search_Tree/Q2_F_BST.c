@@ -6,6 +6,7 @@ Purpose: Implementing the required functions for Question 2 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -87,10 +88,46 @@ int main()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-
+/* recursive solution
 void inOrderTraversal(BSTNode *root)
 {
-	 /* add your code here */
+	if(root->left != NULL) inOrderTraversal(root->left);
+	printf("%d, ", root->item);
+	if(root->right != NULL) inOrderTraversal(root->right);
+}
+*/
+void inOrderTraversal(BSTNode *root)
+{
+	bool* visited_values = malloc(sizeof(bool)*256);
+	Stack* stk = malloc(sizeof(Stack));
+	stk->top = NULL;
+	BSTNode* cur_node = NULL;
+
+	push(stk, root);
+	while(stk->top != NULL) {
+		cur_node = pop(stk);
+		if(cur_node->right != NULL && visited_values[cur_node->right->item] == false) {
+			push(stk, cur_node->right);
+			visited_values[cur_node->right->item] = true;
+		}
+		if(visited_values[cur_node->item] == false || cur_node->left != NULL && visited_values[cur_node->left->item] == false) {
+			push(stk, cur_node);
+			visited_values[cur_node->item] = true;
+		}
+		if(cur_node->left != NULL && visited_values[cur_node->left->item] == false) {
+			push(stk, cur_node->left);
+			visited_values[cur_node->left->item] = true;
+		}
+		else {
+			visited_values[cur_node->item] = true;
+			printf("%d, ", cur_node->item);
+		}
+	}
+
+	free(stk);
+	free(visited_values);
+
+	return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

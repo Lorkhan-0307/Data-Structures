@@ -6,6 +6,7 @@ Purpose: Implementing the required functions for Question 4 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -91,7 +92,33 @@ int main()
 
 void postOrderIterativeS1(BSTNode *root)
 {
-	 /* add your code here */
+	BSTNode* cur_node = malloc(sizeof(BSTNode));
+	Stack* stk = malloc(sizeof(Stack));
+	bool* is_visited = calloc(256, sizeof(bool));
+	stk->top = NULL;
+	push(stk, root);
+
+	while(stk->top != NULL) {
+		cur_node = pop(stk);
+		if(!is_visited[cur_node->item]) {
+			if((cur_node->right == NULL && cur_node->left == NULL) ||is_visited[cur_node->right->item] && is_visited[cur_node->left->item]) {
+				printf("%d, ", cur_node->item);
+				is_visited[cur_node->item] = true;
+			}
+			else {
+				push(stk, cur_node);
+			}
+		}
+		if(cur_node->right != NULL && !is_visited[cur_node->right->item]) {
+			push(stk, cur_node->right);
+		}
+		if(cur_node->left != NULL && !is_visited[cur_node->left->item]) {
+			push(stk, cur_node->left);
+		}
+	}
+
+	free(stk);
+	free(cur_node);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
